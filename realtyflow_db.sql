@@ -1,13 +1,4 @@
 -- ================================================================================
--- ARCHIVO: realtyflow_db.sql
--- DESCRIPCIÓN: Script de base de datos para RealtyFlow en MySQL
--- CONTENIDO: 
--- Tablas para gestión inmobiliaria (propiedades, agentes, clientes, transacciones, visitas, ofertas y documentos)
--- Datos de ejemplo para pruebas  
--- ================================================================================
-
-
--- ================================================================================
 -- DDL - Definición de Tablas
 -- ================================================================================
 
@@ -23,10 +14,9 @@ USE realtyflow_db;
 CREATE TABLE agente (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(120) NOT NULL,
-  telefono VARCHAR(32),
-  email VARCHAR(200),
-  porcentaje_comision DECIMAL(5,2) DEFAULT 0,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  telefono VARCHAR(20) UNIQUE,
+  correo VARCHAR(200),
+  porcentaje_comision DECIMAL(5,2) DEFAULT 0
 );
 
 -- ============================================
@@ -35,10 +25,10 @@ CREATE TABLE agente (
 CREATE TABLE cliente (
   id INT PRIMARY KEY AUTO_INCREMENT,
   nombre VARCHAR(120) NOT NULL,
-  telefono VARCHAR(32),
-  email VARCHAR(200),
+  telefono VARCHAR(20),
+  correo VARCHAR(200),
   preferencias JSON,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+  UNIQUE (telefono, correo)
 );
 
 -- ============================================
@@ -53,11 +43,9 @@ CREATE TABLE propiedad (
   area_m2 DECIMAL(10,2),
   habitaciones INT,
   banos INT,
-  anio_construccion INT,
+  anio_construccion INT NULL,
   estado ENUM('disponible','en_negociacion','vendida','alquilada','inactiva') DEFAULT 'disponible',
-  -- Agente exclusivo (opcional, cumple requisito sin tabla extra)
   agente_exclusivo_id INT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   CONSTRAINT fk_propiedad_agente_exclusivo
     FOREIGN KEY (agente_exclusivo_id) REFERENCES agente(id)
     ON DELETE SET NULL
@@ -72,7 +60,6 @@ CREATE TABLE precio_propiedad (
   precio DECIMAL(14,2) NOT NULL,
   desde TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   hasta TIMESTAMP NULL,
-
   CONSTRAINT fk_precio_propiedad
     FOREIGN KEY (propiedad_id) REFERENCES propiedad(id)
     ON DELETE CASCADE
@@ -88,17 +75,13 @@ CREATE TABLE visita (
   cliente_id INT NULL,
   fecha_hora TIMESTAMP NOT NULL,
   notas TEXT,
-  estado ENUM('programada','realizada','cancelada') DEFAULT 'programada',
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
+  estado ENUM('programada','realizada','cancelada') DEFAULT 'programada'
   CONSTRAINT fk_visita_propiedad
     FOREIGN KEY (propiedad_id) REFERENCES propiedad(id)
     ON DELETE CASCADE,
-
   CONSTRAINT fk_visita_agente
     FOREIGN KEY (agente_id) REFERENCES agente(id)
     ON DELETE SET NULL,
-
   CONSTRAINT fk_visita_cliente
     FOREIGN KEY (cliente_id) REFERENCES cliente(id)
     ON DELETE SET NULL
@@ -115,11 +98,9 @@ CREATE TABLE oferta (
   monto DECIMAL(14,2) NOT NULL,
   estado ENUM('pendiente','aceptada','rechazada') DEFAULT 'pendiente',
   comentarios TEXT,
-
   CONSTRAINT fk_oferta_propiedad
     FOREIGN KEY (propiedad_id) REFERENCES propiedad(id)
     ON DELETE CASCADE,
-
   CONSTRAINT fk_oferta_cliente
     FOREIGN KEY (cliente_id) REFERENCES cliente(id)
     ON DELETE CASCADE
@@ -132,18 +113,12 @@ CREATE TABLE transaccion (
   id INT PRIMARY KEY AUTO_INCREMENT,
   propiedad_id INT NOT NULL,
   cliente_id INT NOT NULL,
-  oferta_id INT NULL,
   fecha_cierre TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
   precio_final DECIMAL(14,2) NOT NULL,
-  tipo_transaccion ENUM('venta','alquiler') NOT NULL,
-  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
   CONSTRAINT fk_transaccion_propiedad
     FOREIGN KEY (propiedad_id) REFERENCES propiedad(id),
-
   CONSTRAINT fk_transaccion_cliente
     FOREIGN KEY (cliente_id) REFERENCES cliente(id),
-
   CONSTRAINT fk_transaccion_oferta
     FOREIGN KEY (oferta_id) REFERENCES oferta(id)
     ON DELETE SET NULL
@@ -158,11 +133,9 @@ CREATE TABLE transaccion_agente (
   agente_id INT NOT NULL,
   comision_monto DECIMAL(14,2),
   comision_porcentaje DECIMAL(5,2),
-
   CONSTRAINT fk_transaccion_agente_transaccion
     FOREIGN KEY (transaccion_id) REFERENCES transaccion(id)
     ON DELETE CASCADE,
-
   CONSTRAINT fk_transaccion_agente_agente
     FOREIGN KEY (agente_id) REFERENCES agente(id)
     ON DELETE CASCADE
@@ -177,13 +150,10 @@ CREATE TABLE documento (
   tipo_documento VARCHAR(64),
   url_archivo TEXT,
   fecha_subida TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-
   CONSTRAINT fk_documento_transaccion
     FOREIGN KEY (transaccion_id) REFERENCES transaccion(id)
     ON DELETE CASCADE
 );
-
-
 
 -- ================================================================================
 -- MDL - Datos de Ejemplo
