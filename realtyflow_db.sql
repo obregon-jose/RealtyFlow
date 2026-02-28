@@ -3,7 +3,7 @@
 -- ================================================================================
 
 -- ====================================================================
--- CREATE DATABASE
+-- CREAR BASE DE DATOS: REALTYFLOW_DB
 -- ====================================================================
 CREATE DATABASE IF NOT EXISTS realtyflow_db;
 USE realtyflow_db;
@@ -14,7 +14,7 @@ USE realtyflow_db;
 CREATE TABLE agente (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(120) NOT NULL,
-  telefono VARCHAR(20),
+  telefono VARCHAR(20) NOT NULL,
   correo VARCHAR(200) NOT NULL UNIQUE,
   porcentaje_comision DECIMAL(5,2) DEFAULT 3.00 CHECK (porcentaje_comision >= 0),
   fecha_ingreso DATE,
@@ -27,7 +27,7 @@ CREATE TABLE agente (
 CREATE TABLE cliente (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nombre VARCHAR(120) NOT NULL,
-  telefono VARCHAR(20),
+  telefono VARCHAR(20) NOT NULL,
   correo VARCHAR(200) NOT NULL UNIQUE,
   tipo_publicacion_preferida ENUM('venta','alquiler'),
   tipo_propiedad_preferida ENUM('casa','apartamento','terreno'),
@@ -45,11 +45,11 @@ CREATE TABLE propiedad (
   tipo_propiedad ENUM('casa','apartamento','terreno') NOT NULL,
   direccion VARCHAR(200) UNIQUE NOT NULL,
   ciudad VARCHAR(100) NOT NULL,
-  area_m2 DECIMAL(10,2) CHECK (area_m2 > 0),
-  habitaciones INT CHECK (habitaciones >= 0),
-  banos INT CHECK (banos >= 0),
-  anio_construccion INT,
-  estado ENUM('disponible','en_negociacion','vendida','alquilada','inactiva') DEFAULT 'disponible',
+  area_m2 DECIMAL(10,2) CHECK (area_m2 > 0) NOT NULL,
+  habitaciones INT CHECK (habitaciones >= 0) NOT NULL,
+  banos INT CHECK (banos >= 0) NOT NULL,
+  anio_construccion INT NOT NULL,
+  estado ENUM('disponible','en_negociacion','vendida','alquilada','inactiva') DEFAULT 'disponible' NOT NULL,
   fecha_publicacion DATE,
   agente_esclusivo_id INT NULL,
   FOREIGN KEY (agente_esclusivo_id) REFERENCES agente(id) ON DELETE SET NULL
@@ -62,7 +62,7 @@ CREATE TABLE precio_propiedad (
   id INT AUTO_INCREMENT PRIMARY KEY,
   propiedad_id INT NOT NULL,
   precio DECIMAL(14,2) NOT NULL CHECK (precio > 0),
-  desde TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  desde TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
   hasta TIMESTAMP NULL,
   FOREIGN KEY (propiedad_id) REFERENCES propiedad(id) ON DELETE CASCADE
 );
@@ -77,7 +77,7 @@ CREATE TABLE visita (
     agente_id INT NULL,
     fecha DATE NOT NULL,
     hora TIME NOT NULL,
-    estado ENUM('programada','realizada','cancelada') DEFAULT 'programada',
+    estado ENUM('programada','realizada','cancelada') DEFAULT 'programada' NOT NULL,
     notas TEXT,
     UNIQUE (propiedad_id, cliente_id, fecha, hora),
     FOREIGN KEY(propiedad_id) REFERENCES propiedad(id) ON DELETE CASCADE,
@@ -92,9 +92,9 @@ CREATE TABLE oferta (
     id INT AUTO_INCREMENT PRIMARY KEY,
     propiedad_id INT NOT NULL,
     cliente_id INT NOT NULL,
-    fecha DATE DEFAULT CURRENT_DATE,
+    fecha DATE DEFAULT CURRENT_DATE NOT NULL,
     monto DECIMAL(14,2) NOT NULL CHECK (monto > 0),
-    estado ENUM('pendiente','aceptada','rechazada') DEFAULT 'pendiente',
+    estado ENUM('pendiente','aceptada','rechazada') DEFAULT 'pendiente' NOT NULL,
     comentarios TEXT,
     UNIQUE (propiedad_id, cliente_id, monto),
     FOREIGN KEY(propiedad_id) REFERENCES propiedad(id) ON DELETE CASCADE,
@@ -107,12 +107,12 @@ CREATE TABLE oferta (
 CREATE TABLE transaccion (
   id INT AUTO_INCREMENT PRIMARY KEY,
   propiedad_id INT NOT NULL,
-  fecha_cierre DATE DEFAULT CURRENT_DATE,
+  fecha_cierre DATE DEFAULT CURRENT_DATE NOT NULL,
   precio_final DECIMAL(14,2) NOT NULL CHECK (precio_final > 0),
   tipo_transaccion ENUM('venta','alquiler') NOT NULL,
-  estado_transaccion ENUM('cerrada','cancelada') DEFAULT 'cerrada',
+  estado_transaccion ENUM('cerrada','cancelada') DEFAULT 'cerrada' NOT NULL,
   oferta_id INT NULL,
-  FOREIGN KEY(propiedad_id) REFERENCES propiedad(id),
+  FOREIGN KEY(propiedad_id) REFERENCES propiedad(id) ON DELETE CASCADE,
   FOREIGN KEY(oferta_id) REFERENCES oferta(id) ON DELETE SET NULL
 );
 
@@ -123,7 +123,7 @@ CREATE TABLE transaccion_agente (
   transaccion_id INT NOT NULL,
   agente_id INT NOT NULL,
   comision_monto DECIMAL(14,2) CHECK (comision_monto >= 0),
-  comision_porcentaje DECIMAL(5,2) CHECK (comision_porcentaje >= 0 AND comision_porcentaje <= 100),
+  comision_porcentaje DECIMAL(5,2) CHECK (comision_porcentaje >= 0 AND comision_porcentaje <= 100) NOT NULL,
   PRIMARY KEY(transaccion_id, agente_id),
   FOREIGN KEY(transaccion_id) REFERENCES transaccion(id) ON DELETE CASCADE,
   FOREIGN KEY(agente_id) REFERENCES agente(id) ON DELETE CASCADE
