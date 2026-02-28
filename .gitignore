@@ -1,3 +1,6 @@
-/Criterios*
-/talleres
-*trans
+main.py
+build/*
+dist/*
+transacciones_bancarias_limpio.csv
+talleres/*
+

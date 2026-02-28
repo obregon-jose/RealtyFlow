@@ -63,4 +63,4 @@ plt.title('Top 10 Clientes con Más Transacciones', fontsize=14, fontweight='bol
 plt.xlabel('Cantidad de Transacciones')
 plt.ylabel('Cliente ID')
 plt.tight_layout()
-plt.show()
+plt.show()h

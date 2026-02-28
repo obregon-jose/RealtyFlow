@@ -3,7 +3,7 @@
 -- ================================================================================
 
 -- ============================================
--- 0) CREATE DATABASE: realtyflow_db
+-- CREATE DATABASE: realtyflow_db
 -- ============================================
 CREATE DATABASE IF NOT EXISTS realtyflow_db;
 USE realtyflow_db;

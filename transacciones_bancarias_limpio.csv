@@ -9,7 +9,7 @@ TRX003007,2024-09-13,CLI2985,Retiro,-2114839.31,Salud,Cali,App Móvil,12:09,Exit
 TRX007508,2023-08-24,CLI4053,Deposito,2448711.52,Salud,Barranquilla,Cajero,01:23,Pendiente,2448711.52,2023,8,3,Q3,Muy Grande,1,True
 TRX006225,2023-11-04,CLI2747,Transferencia,2877030.65,Otros,Cali,Sucursal,04:17,Fallida,2877030.65,2023,11,5,Q4,Muy Grande,4,True
 TRX003625,2024-03-11,CLI4182,Pago De Servicio,-1673531.86,Transporte,Bogotá,App Móvil,03:36,Pendiente,1673531.86,2024,3,0,Q1,Grande,3,True
-TRX002516,2024-11-03,CLI4490,Compra,-1935299.19,Entretenimiento,Bogotá,Sucursal,11:35,Exitosa,1935299.19,2024,11,6,Q4,Grande,11,False
+TRdX002516,2024-11-03,CLI4490,Compra,-1935299.19,Entretenimiento,Bogotá,Sucursal,11:35,Exitosa,1935299.19,2024,11,6,Q4,Grande,11,False
 TRX002334,2024-05-20,CLI4067,Transferencia,1607107.73,Servicios,Bogotá,Sucursal,20:20,Fallida,1607107.73,2024,5,0,Q2,Grande,20,False
 TRX000264,2023-10-31,CLI2870,Compra,-933911.94,Transporte,Medellín,App Móvil,11:51,Exitosa,933911.94,2023,10,1,Q4,Grande,11,False
 TRX001085,2023-08-05,CLI1826,Transferencia,1695963.7,Salud,Cartagena,App Móvil,16:25,Pendiente,1695963.7,2023,8,5,Q3,Grande,16,False
