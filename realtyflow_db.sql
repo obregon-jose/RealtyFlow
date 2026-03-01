@@ -43,13 +43,13 @@ CREATE TABLE propiedad (
   id INT AUTO_INCREMENT PRIMARY KEY,
   tipo_publicacion ENUM('venta','alquiler') NOT NULL,
   tipo_propiedad ENUM('casa','apartamento','terreno') NOT NULL,
-  direccion VARCHAR(200) UNIQUE NOT NULL,
+  direccion VARCHAR(200) NOT NULL UNIQUE,
   ciudad VARCHAR(100) NOT NULL,
-  area_m2 DECIMAL(10,2) CHECK (area_m2 > 0) NOT NULL,
-  habitaciones INT CHECK (habitaciones >= 0) NOT NULL,
-  banos INT CHECK (banos >= 0) NOT NULL,
+  area_m2 DECIMAL(10,2) NOT NULL CHECK (area_m2 > 0),
+  habitaciones INT NOT NULL CHECK (habitaciones >= 0),
+  banos INT NOT NULL CHECK (banos >= 0),
   anio_construccion INT NOT NULL,
-  estado ENUM('disponible','en_negociacion','vendida','alquilada','inactiva') DEFAULT 'disponible' NOT NULL,
+  estado ENUM('disponible','en_negociacion','vendida','alquilada','inactiva') NOT NULL DEFAULT 'disponible',
   fecha_publicacion DATE,
   agente_esclusivo_id INT NULL,
   FOREIGN KEY (agente_esclusivo_id) REFERENCES agente(id) ON DELETE SET NULL
@@ -62,8 +62,9 @@ CREATE TABLE precio_propiedad (
   id INT AUTO_INCREMENT PRIMARY KEY,
   propiedad_id INT NOT NULL,
   precio DECIMAL(14,2) NOT NULL CHECK (precio > 0),
-  desde TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-  hasta TIMESTAMP NULL,
+  desde DATE DEFAULT CURRENT_DATE NOT NULL,
+  hasta DATE NULL,
+  UNIQUE(propiedad_id, desde),
   FOREIGN KEY (propiedad_id) REFERENCES propiedad(id) ON DELETE CASCADE
 );
 
@@ -123,7 +124,7 @@ CREATE TABLE transaccion_agente (
   transaccion_id INT NOT NULL,
   agente_id INT NOT NULL,
   comision_monto DECIMAL(14,2) CHECK (comision_monto >= 0),
-  comision_porcentaje DECIMAL(5,2) CHECK (comision_porcentaje >= 0 AND comision_porcentaje <= 100) NOT NULL,
+  comision_porcentaje DECIMAL(5,2) NOT NULL CHECK (comision_porcentaje >= 0 AND comision_porcentaje <= 100),
   PRIMARY KEY(transaccion_id, agente_id),
   FOREIGN KEY(transaccion_id) REFERENCES transaccion(id) ON DELETE CASCADE,
   FOREIGN KEY(agente_id) REFERENCES agente(id) ON DELETE CASCADE
@@ -161,9 +162,9 @@ INSERT INTO propiedad (tipo_publicacion, tipo_propiedad, direccion, ciudad, area
 -- 4) HISTORIAL DE PRECIOS
 -- ====================================================================
 INSERT INTO precio_propiedad (propiedad_id, precio, desde) VALUES
-(1,450000000,'2023-01-05 00:00:00'),
-(2,1500000,'2023-02-10 00:00:00'),
-(3,350000000,'2023-03-01 00:00:00');
+(1,450000000,'2023-01-05'),
+(2,1500000,'2023-02-10'),
+(3,350000000,'2023-03-01');
 
 -- ====================================================================
 -- 5) VISITAS
