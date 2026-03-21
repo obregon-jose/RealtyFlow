@@ -1,5 +1,5 @@
 -- ================================================================================
--- CONTENIDO: Consultas SQL para gestión inmobiliaria
+-- CONTENIDO: Consultas SQL sobre preguntas de negocio para gestión inmobiliaria
 -- ================================================================================
 
 -- Pregunta 1: 
