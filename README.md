@@ -75,14 +75,12 @@ El sistema RealtyFlow cubre:
 
 ## Modelo entidad–relación
 
-   PENDIENTE CIUDAD 
 ![Diagrama ER](assets/diagrama_er.png)
 
 Las principales entidades del sistema son:
 
 | Entidad | Descripción |
 |---|---|
-| `ciudad` | Ubicaciones con presencia inmobiliaria |
 | `agente` | Personal inmobiliario que gestiona inmuebles y recibe comisiones por sede |
 | `cliente` | Usuarios interesados en inmuebles, con preferencias de búsqueda registradas |
 | `inmueble` | Inmuebles con detalle, estado y tipo de publicación |
@@ -112,7 +110,7 @@ Las principales entidades del sistema son:
 ciudad (id, nombre)
 agente (id, nombre, correo, telefono, porcentaje_comision, fecha_ingreso, ciudad_id)
 cliente (id, nombre, correo, telefono, tipo_publicacion_preferida, tipo_inmueble_preferido, ciudad_id, presupuesto_min, presupuesto_max)
-inmueble (id, tipo_publicacion, tipo_inmueble, direccion, ciudad, area_m2, habitaciones, banos, anio_construccion, estado, fecha_publicacion, agente_exclusivo_id)
+inmueble (id, tipo_publicacion, tipo_inmueble, direccion, ciudad_id, area_m2, habitaciones, banos, anio_construccion, estado, fecha_publicacion, agente_exclusivo_id)
 precio(id, inmueble_id, precio, desde, hasta)
 visita (id, inmueble_id, cliente_id, agente_id, fecha, hora, estado, notas)
 oferta (id, inmueble_id, cliente_id, fecha, monto, estado, comentarios)
@@ -183,7 +181,7 @@ Las siguientes preguntas guiaron el diseño de las consultas y el dashboard:
 - ¿Qué tipo de inmueble se vende con mayor frecuencia?
 <!-- 11. ¿Cuál es el precio promedio por tipo de inmueble? -->
 <!-- 12. ¿Cuántas ofertas recibe en promedio cada inmueble? -->
-<!-- - ¿Qué ciudad presenta mayor volumen de transacciones? -->
+- ¿Qué ciudad presenta mayor volumen de transacciones?
 <!-- 14. ¿Qué agentes han cerrado más transacciones y cuánto han generado en comisiones? -->
 <!-- 15. ¿Cuánto tarda en promedio una inmueble en venderse desde su publicación? -->
 <!-- 16. ¿Qué inmuebles reciben más visitas y cuál es la tasa de conversión? -->
@@ -219,14 +217,12 @@ El script `realtyflow_queries.sql` contiene las consultas. Las técnicas utiliza
 La base de datos fue conectada a Power BI para construir un dashboard interactivo.
 
 ### Página 1 — Datos generales
-
 ![Dashboard página 1](assets/dashboard_p1.png)
 
 - KPIs: total inmuebles, transacciones, agentes, ingresos totales, ciudades con cobertura, ofertas y visitas.
 
 ### Página 2 — Portafolio
-
-![Dashboard página 1](assets/dashboard_p2.png)
+![Dashboard página 2](assets/dashboard_p2.png)
 
 - Distribución por ciudad y por tipo de inmueble.
 - Estado del portafolio (disponible / en negociación / vendida / alquilada).
@@ -234,16 +230,14 @@ La base de datos fue conectada a Power BI para construir un dashboard interactiv
 - Precio promedio publicado vs precio de cierre.
 - Ingresos transaccionados por ciudad.
 
-<!-- ### Página 2 — Demanda y conversión -->
+### Página 3 — Demanda
+ ![Dashboard página 3](assets/dashboard_p3.png)
 
-<!-- IMAGEN PÁGINA 2 POWER BI -->
-<!-- ![Dashboard página 2](assets/dashboard_p3.png)
-
-- Embudo de conversión: visitas agendadas → realizadas → ofertas → cierres.
-- Estado de ofertas por ciudad (barras 100% apiladas).
-- Tasa de cancelación de visitas por agente.
+<!-- - Embudo de conversión: visitas agendadas → realizadas → ofertas → cierres. -->
+- Estado de ofertas por ciudad.
+<!-- - Tasa de cancelación de visitas por agente. -->
 - Cierres vs transacciones canceladas por ciudad. -->
-
+<!--
 <!-- ### Página 3 — Financiero y comportamiento del cliente -->
 
 <!-- IMAGEN PÁGINA 3 POWER BI -->
