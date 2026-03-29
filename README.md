@@ -217,12 +217,12 @@ El script `realtyflow_queries.sql` contiene las consultas. Las técnicas utiliza
 La base de datos fue conectada a Power BI para construir un dashboard interactivo.
 
 ### Página 1 — Datos generales
-![Dashboard página 1](assets/dashboard_p1.png)
+![Dashboard página 1](assets/realtyflow_dashboard_p1.jpg)
 
 - KPIs: total inmuebles, transacciones, agentes, ingresos totales, ciudades con cobertura, ofertas y visitas.
 
 ### Página 2 — Portafolio
-![Dashboard página 2](assets/dashboard_p2.png)
+![Dashboard página 2](assets/realtyflow_dashboard_p2.jpg)
 
 - Distribución por ciudad y por tipo de inmueble.
 - Estado del portafolio (disponible / en negociación / vendida / alquilada).
@@ -230,13 +230,13 @@ La base de datos fue conectada a Power BI para construir un dashboard interactiv
 - Precio promedio publicado vs precio de cierre.
 - Ingresos transaccionados por ciudad.
 
-### Página 3 — Demanda
- ![Dashboard página 3](assets/dashboard_p3.png)
+### Página 3 — Demanda y Preferencias
+ ![Dashboard página 3](assets/realtyflow_dashboard_p3.jpg)
 
-<!-- - Embudo de conversión: visitas agendadas → realizadas → ofertas → cierres. -->
+- oferta vs Demanda.
 - Estado de ofertas por ciudad.
-<!-- - Tasa de cancelación de visitas por agente. -->
-- Cierres vs transacciones canceladas por ciudad. -->
+- Estado de visitas.
+- Cierres vs transacciones canceladas por ciudad.
 <!--
 <!-- ### Página 3 — Financiero y comportamiento del cliente -->
 
